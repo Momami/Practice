@@ -54,6 +54,34 @@
   <sequence name="main">
     <receive name="ReceiveCheckText" createInstance="yes" partnerLink="MySpellerWebService"
              portType="ns1:CheckTextPortType" operation="CheckText" variable="CheckText_InputVariable"/>
+    <if name="CheckLengthText">
+      <documentation>
+        <![CDATA[>15]]>
+      </documentation>
+      <condition>string-length($CheckText_InputVariable.part1) &gt; 15</condition>
+      <assign name="CutLength">
+        <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+          <from>substring($CheckText_InputVariable.part1, 1, 15)</from>
+          <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexCheckText_InputVariable.parameters/ns2:text</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[=<15]]>
+        </documentation>
+        <bpelx:annotation>
+          <bpelx:documentation>
+            <![CDATA[=<15]]>
+          </bpelx:documentation>
+        </bpelx:annotation>
+        <assign name="AssignJust">
+          <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+            <from>$CheckText_InputVariable.part1</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexCheckText_InputVariable.parameters/ns2:text</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
     <assign name="AssignYandexCheckText">
       <copy>
         <from>'ru'</from>
@@ -66,10 +94,6 @@
       <copy>
         <from>'plain'</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexCheckText_InputVariable.parameters/@format</to>
-      </copy>
-      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
-        <from>$CheckText_InputVariable.part1</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexCheckText_InputVariable.parameters/ns2:text</to>
       </copy>
     </assign>
     <invoke name="InvokeYandexSpellService" bpelx:invokeAsDetail="no" partnerLink="YandexSpellerWebService"

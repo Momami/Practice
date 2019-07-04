@@ -4,10 +4,10 @@
    <annotationfile/>
    <iconize/>
    <partnerlink_locations>
-      <partnerlink name="MySpellerWebService" x="0" y="382" side="left"/>
-      <partnerlink name="YandexSpellerWebService" x="818" y="284" side="right"/>
+      <partnerlink name="MySpellerWebService" x="0" y="529" side="left"/>
+      <partnerlink name="YandexSpellerWebService" x="702" y="578" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,347,980,476" show_swimlanes="true">
+   <graph_layout viewport="0,241,864,333" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
    </graph_layout>
