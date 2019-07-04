@@ -82,7 +82,7 @@
       <condition>ora:countNodes('YandexCheckText_OutputVariable', 'parameters', 'ns2:SpellResult/ns2:error')&gt;0</condition>
       <assign name="AssignFailCheckText">
         <copy>
-          <from>'Fall'</from>
+          <from>'Fail'</from>
           <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CheckText_OutputVariable.part1</to>
         </copy>
       </assign>
