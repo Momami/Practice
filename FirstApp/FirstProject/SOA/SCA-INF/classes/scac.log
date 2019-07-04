@@ -1,0 +1,17 @@
+2019-07-01 19:09:42.905/6.910 Oracle Coherence 12.2.1.3.0 <Info> (thread=main, member=n/a): Loaded operational configuration from "jar:file:/C:/Oracle/coherence/lib/coherence.jar!/tangosol-coherence.xml"
+2019-07-01 19:09:43.157/7.162 Oracle Coherence 12.2.1.3.0 <Info> (thread=main, member=n/a): Loaded operational overrides from "jar:file:/C:/Oracle/coherence/lib/coherence.jar!/tangosol-coherence-override-dev.xml"
+2019-07-01 19:09:43.163/7.168 Oracle Coherence 12.2.1.3.0 <D5> (thread=main, member=n/a): Optional configuration override "/tangosol-coherence-override.xml" is not specified
+2019-07-01 19:09:43.182/7.187 Oracle Coherence 12.2.1.3.0 <D5> (thread=main, member=n/a): Optional configuration override "cache-factory-config.xml" is not specified
+2019-07-01 19:09:43.186/7.191 Oracle Coherence 12.2.1.3.0 <D5> (thread=main, member=n/a): Optional configuration override "cache-factory-builder-config.xml" is not specified
+2019-07-01 19:09:43.194/7.199 Oracle Coherence 12.2.1.3.0 <D5> (thread=main, member=n/a): Optional configuration override "/custom-mbeans.xml" is not specified
+
+Oracle Coherence Version 12.2.1.3.0 Build 68243
+ Grid Edition: Development mode
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+2019-07-01 19:09:45.785/9.789 Oracle Coherence GE 12.2.1.3.0 <Info> (thread=main, member=n/a): Created cache factory com.tangosol.net.ExtensibleConfigurableCacheFactory
+2019-07-01 19:09:46.749/10.753 Oracle Coherence GE 12.2.1.3.0 <Info> (thread=main, member=n/a): The cluster name has not been configured, a value of "milen's cluster" has been automatically generated
+WARNING: Failed to load WSDL from WSDLs/OrderProcessor.wsdl due to: Error in getting XML input stream: file:/C:/JDeveloper/mywork/FirstApp/FirstProject/SOA/WSDLs/OrderProcessor.wsdl: C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\WSDLs\OrderProcessor.wsdl (Не удается найти указанный файл)
+WARNING: Validating WSDLs from WSDLManager....  with option UseSoaInfraMds:false
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option PermSize=32m; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256m; support was removed in 8.0

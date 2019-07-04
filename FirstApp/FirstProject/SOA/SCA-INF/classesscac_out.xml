@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>error</severity>
+      <loc>/ns:composite/ns:import[@location='WSDLs/OrderProcessor.wsdl']</loc>
+      <line>15</line>
+      <col>30</col>
+      <file>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</file>
+      <name>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</name>
+      <fix/>
+      <msg>Load of wsdl "WSDLs/OrderProcessor.wsdl" failed</msg>
+   </Fault>
+   <Fault>
+      <severity>error</severity>
+      <loc>/ns:composite/ns:component[@name='OrderProcessor']</loc>
+      <line>18</line>
+      <col>50</col>
+      <file>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</file>
+      <name>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</name>
+      <fix/>
+      <msg>Cannot find Port Type "{http://xmlns.oracle.com/FirstApp/FirstProject/OrderProcessor}OrderProcessor" for "orderprocessor_client" in WSDL Manager</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:component[@name='OrderProcessor/orderprocessor_client']</loc>
+      <line/>
+      <col/>
+      <file>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</file>
+      <name>C:\JDeveloper\mywork\FirstApp\FirstProject\SOA\composite.xml</name>
+      <fix/>
+      <msg>The service "orderprocessor_client" exposed by component "OrderProcessor" is not wired to/used by any other component.</msg>
+   </Fault>
+</Faults>

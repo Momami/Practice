@@ -1,0 +1,16 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="MySpellerWebService"
+     targetNamespace="http://oracle.com/sca/soapservice/DevGuideApp/Project1/MySpellerWebService"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://oracle.com/sca/soapservice/DevGuideApp/Project1/MySpellerWebService"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="MySpellerWebService">
+        <plnk:role name="CheckTextPortType" portType="tns:CheckTextPortType"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project1/MySpellerWebService"
+         location="MySpellerWebService.wsdl"/>
+</wsdl:definitions>
