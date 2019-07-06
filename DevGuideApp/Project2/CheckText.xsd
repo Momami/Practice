@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.neoflex.ru/DevGuideApp/Project2"
+            targetNamespace="http://www.neoflex.ru/DevGuideApp/Project2" elementFormDefault="qualified">
+  <xsd:element name="CheckTextRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ReplyURL" type="xsd:string"/>
+        <xsd:element name="CorrelationID" type="xsd:string"/>
+        <xsd:element name="CheckText" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CheckTextResponse">
+    <xsd:annotation>
+      <xsd:documentation>A sample element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="CorrelationID" type="xsd:string"/>
+        <xsd:element name="Result" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

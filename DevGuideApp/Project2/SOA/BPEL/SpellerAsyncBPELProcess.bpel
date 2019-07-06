@@ -1,0 +1,142 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Jul 05 11:15:02 GMT+04:00 2019
+  Author:  milen
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SpellerAsyncBPELProcess"
+               targetNamespace="http://neoflex.ru/DevGuideApp/Project2/SpellerAsyncBPELProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://neoflex.ru/DevGuideApp/Project2/SpellerAsyncBPELProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ns1="http://neoflex.ru/DevGuideApp/Project2/MyAsyncSpellerWebService"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer" xmlns:ns2="http://speller.yandex.net/services/spellservice"
+         xmlns:ns3="http://www.neoflex.ru/DevGuideApp/Project2"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://neoflex.ru/DevGuideApp/Project2/MyAsyncSpellerWebService"
+          location="../WSDLs/MyAsyncSpellerWebServiceWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="spellerasyncbpelprocess_client" partnerLinkType="ns1:SpellerAsyncBPELProcess" myRole="execute_ptt"/>
+    <partnerLink name="YandexSpellerWebService" partnerLinkType="ns2:YandexSpellerWebService"
+                 partnerRole="SpellServiceSoap"/>
+    <partnerLink name="MyAsyncSpellerWebServiceCallback" partnerLinkType="ns1:MyAsyncSpellerWebServiceCallback"
+                 partnerRole="callback_ptt"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="CheckText_InputVariable" messageType="ns1:requestMessage"/>
+    <variable name="YandexSpellService_InputVariable" messageType="ns2:checkTextSoapIn"/>
+    <variable name="YandexSpellService_OutputVariable" messageType="ns2:checkTextSoapOut"/>
+    <variable name="CheckTextCallback_InputVariable" messageType="ns1:callbackMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in SpellerAsyncBPELProcess.wsdl) -->
+    <receive name="ReceiveCheckText" createInstance="yes" partnerLink="spellerasyncbpelprocess_client"
+             portType="ns1:execute_ptt" operation="execute" variable="CheckText_InputVariable"/>
+    <assign name="AssignYandexCheckText">
+      <copy>
+        <from>'ru'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/@lang</to>
+      </copy>
+      <copy>
+        <from>32</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/@options</to>
+      </copy>
+      <copy>
+        <from>'plain'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/@format</to>
+      </copy>
+      <copy>
+        <from>$CheckText_InputVariable.part1/ns3:CheckText</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/ns2:text</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeYandexSpellService" bpelx:invokeAsDetail="no" partnerLink="YandexSpellerWebService"
+            portType="ns2:SpellServiceSoap" operation="checkText" inputVariable="YandexSpellService_InputVariable"
+            outputVariable="YandexSpellService_OutputVariable"/>
+    <if name="CheckErrors">
+      <documentation>
+        <![CDATA[Errors]]>
+      </documentation>
+      <condition>ora:countNodes('YandexSpellService_OutputVariable','parameters','ns2:SpellResult/ns2:error')&gt;0</condition>
+      <assign name="AssignFailCheckText">
+        <copy>
+          <from>$CheckText_InputVariable.part1/ns3:CorrelationID</from>
+          <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CheckTextCallback_InputVariable.part1/ns3:CorrelationID</to>
+        </copy>
+        <copy>
+          <from>'Fail'</from>
+          <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CheckTextCallback_InputVariable.part1/ns3:Result</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[No Errors]]>
+        </documentation>
+        <assign name="AssignSuccessCheckText">
+          <copy>
+            <from>$CheckText_InputVariable.part1/ns3:CorrelationID</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CheckTextCallback_InputVariable.part1/ns3:CorrelationID</to>
+          </copy>
+          <copy>
+            <from>'Success'</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CheckTextCallback_InputVariable.part1/ns3:Result</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <invoke name="InvokeCheckTextCallback" partnerLink="MyAsyncSpellerWebServiceCallback"
+            portType="ns1:callback_ptt" operation="callback" inputVariable="CheckTextCallback_InputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="endpointURI" variable="CheckText_InputVariable" part="part1">
+          <bpelx:query>ns3:ReplyURL</bpelx:query>
+        </bpelx:toProperty>
+      </bpelx:toProperties>
+    </invoke>
+  </sequence>
+</process>
