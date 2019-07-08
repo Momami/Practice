@@ -27,7 +27,7 @@
          xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
          xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
-         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,7 @@
     <variable name="YandexSpellService_InputVariable" messageType="ns2:checkTextSoapIn"/>
     <variable name="YandexSpellService_OutputVariable" messageType="ns2:checkTextSoapOut"/>
     <variable name="CheckTextCallback_InputVariable" messageType="ns1:callbackMessage"/>
+    <variable name="ReplyURL_content" type="xsd:string"/>
   </variables>
 
   <!-- 
@@ -83,6 +84,10 @@
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/@lang</to>
       </copy>
       <copy>
+        <from>$CheckText_InputVariable.part1/ns3:ReplyURL</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyURL_content</to>
+      </copy>
+      <copy>
         <from>32</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/@options</to>
       </copy>
@@ -95,9 +100,9 @@
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexSpellService_InputVariable.parameters/ns2:text</to>
       </copy>
     </assign>
-    <invoke name="InvokeYandexSpellService" bpelx:invokeAsDetail="no" partnerLink="YandexSpellerWebService"
+    <invoke name="InvokeYandexSpellService" partnerLink="YandexSpellerWebService"
             portType="ns2:SpellServiceSoap" operation="checkText" inputVariable="YandexSpellService_InputVariable"
-            outputVariable="YandexSpellService_OutputVariable"/>
+            outputVariable="YandexSpellService_OutputVariable" bpelx:invokeAsDetail="no"/>
     <if name="CheckErrors">
       <documentation>
         <![CDATA[Errors]]>
@@ -133,9 +138,7 @@
             portType="ns1:callback_ptt" operation="callback" inputVariable="CheckTextCallback_InputVariable"
             bpelx:invokeAsDetail="no">
       <bpelx:toProperties>
-        <bpelx:toProperty name="endpointURI" variable="CheckText_InputVariable" part="part1">
-          <bpelx:query>ns3:ReplyURL</bpelx:query>
-        </bpelx:toProperty>
+        <bpelx:toProperty name="endpointURI" variable="ReplyURL_content"/>
       </bpelx:toProperties>
     </invoke>
   </sequence>

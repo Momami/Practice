@@ -4,7 +4,7 @@
       <reference name="MyAsyncSpellerWebServiceCallback">
          <!--Add search and replace rules for the binding properties-->
          <binding type="ws">
-            <property name="endpointUPI">
+            <property name="endpointURI">
                <replace>http://DESKTOP-0M0S9AF:8088/mockcallback_pttBinding</replace>
             </property>
          </binding>

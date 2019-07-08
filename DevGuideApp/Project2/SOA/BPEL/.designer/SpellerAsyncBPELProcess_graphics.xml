@@ -6,9 +6,9 @@
    <partnerlink_locations>
       <partnerlink name="spellerasyncbpelprocess_client" x="0" y="90" side="left"/>
       <partnerlink name="MyAsyncSpellerWebServiceCallback" x="0" y="674" side="left"/>
-      <partnerlink name="YandexSpellerWebService" x="636" y="284" side="right"/>
+      <partnerlink name="YandexSpellerWebService" x="884" y="284" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,546,613,277" show_swimlanes="true">
+   <graph_layout viewport="0,497,1046,326" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
    </graph_layout>

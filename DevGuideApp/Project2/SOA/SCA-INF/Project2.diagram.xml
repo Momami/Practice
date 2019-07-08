@@ -15,11 +15,11 @@
         </dgm:operations>
     </dgm:gService>
     <dgm:gReference name="YandexSpellerWebService">
-        <dgm:body borderWidth="2" arcRad="20" X="488" Y="26" width="136" height="96">
+        <dgm:body borderWidth="2" arcRad="20" X="776" Y="26" width="136" height="96">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="478" Y="19" width="156" height="110">
+        <dgm:shadow arcRad="20" X="766" Y="19" width="156" height="110">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="YandexSpellerWebService" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://speller.yandex.net/services/spellservice#wsdl.interface(SpellServiceSoap)"/>
@@ -30,11 +30,11 @@
         </dgm:operations>
     </dgm:gReference>
     <dgm:gReference name="MyAsyncSpellerWebServiceCallback">
-        <dgm:body borderWidth="2" arcRad="20" X="488" Y="156" width="136" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="776" Y="156" width="136" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="478" Y="149" width="156" height="98">
+        <dgm:shadow arcRad="20" X="766" Y="149" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="MyAsyncSpellerWebServiceCallback" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://neoflex.ru/DevGuideApp/Project2/MyAsyncSpellerWebService#wsdl.interface(callback_ptt)"/>
@@ -44,12 +44,12 @@
         </dgm:operations>
     </dgm:gReference>
     <dgm:gComponent name="SpellerAsyncBPELProcess">
-        <dgm:body borderWidth="2" arcRad="20" X="258" Y="93" width="130" height="86">
+        <dgm:body borderWidth="2" arcRad="20" X="402" Y="93" width="130" height="86">
             <dgm:borderColor r="69" g="113" b="140"/>
             <dgm:lightBgColor r="166" g="208" b="230"/>
             <dgm:darkBgColor r="99" g="162" b="201"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="248" Y="86" width="150" height="102">
+        <dgm:shadow arcRad="20" X="392" Y="86" width="150" height="102">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="spellerasyncbpelprocess_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://neoflex.ru/DevGuideApp/Project2/MyAsyncSpellerWebService#wsdl.interface(execute_ptt)"/>
@@ -58,21 +58,21 @@
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
     </dgm:gComponent>
     <dgm:gWireLink source="SpellerAsyncBPELProcess/YandexSpellerWebService" target="YandexSpellerWebService" width="2">
-        <dgm:gSegment X1="398" Y1="118" X2="422" Y2="118"/>
-        <dgm:gSegment X1="422" Y1="118" X2="422" Y2="36"/>
-        <dgm:gSegment X1="422" Y1="36" X2="478" Y2="36"/>
+        <dgm:gSegment X1="542" Y1="118" X2="566" Y2="118"/>
+        <dgm:gSegment X1="566" Y1="118" X2="566" Y2="36"/>
+        <dgm:gSegment X1="566" Y1="36" X2="766" Y2="36"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="SpellerAsyncBPELProcess/MyAsyncSpellerWebServiceCallback" target="MyAsyncSpellerWebServiceCallback" width="2">
-        <dgm:gSegment X1="398" Y1="143" X2="422" Y2="143"/>
-        <dgm:gSegment X1="422" Y1="143" X2="422" Y2="166"/>
-        <dgm:gSegment X1="422" Y1="166" X2="478" Y2="166"/>
+        <dgm:gSegment X1="542" Y1="143" X2="566" Y2="143"/>
+        <dgm:gSegment X1="566" Y1="143" X2="566" Y2="166"/>
+        <dgm:gSegment X1="566" Y1="166" X2="766" Y2="166"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="MyAsyncSpellerWebService" target="SpellerAsyncBPELProcess/spellerasyncbpelprocess_client" width="2">
-        <dgm:gSegment X1="168" Y1="118" X2="248" Y2="118"/>
+        <dgm:gSegment X1="168" Y1="118" X2="392" Y2="118"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
