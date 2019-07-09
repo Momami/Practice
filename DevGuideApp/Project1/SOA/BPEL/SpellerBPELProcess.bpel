@@ -56,7 +56,7 @@
              portType="ns1:CheckTextPortType" operation="CheckText" variable="CheckText_InputVariable"/>
     <assign name="AssignYandexCheckText">
       <copy>
-        <from>'ru'</from>
+        <from>'en'</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$YandexCheckText_InputVariable.parameters/@lang</to>
       </copy>
       <copy>
