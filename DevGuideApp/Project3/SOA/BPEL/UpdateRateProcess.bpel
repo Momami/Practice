@@ -1,0 +1,59 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer
+
+  Created: Wed Jul 10 14:57:42 GMT+04:00 2019
+  Author:  milen
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="UpdateRateProcess"
+               targetNamespace="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate" xmlns:ns2="http://web.cbr.ru/"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer">
+
+  <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC
+     Set of activities coordinating the flow of messages across the
+     services integrated within this business process
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://web.cbr.ru/" location="http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate"
+          location="../WSDLs/MyUpdateRateWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <import namespace="http://web.cbr.ru/"
+          location="../WSDLs/DailyInfoWrapper1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>        
+  <partnerLinks>
+    <partnerLink name="MyUpdateRate" partnerLinkType="ns1:MyUpdateRate" myRole="execute_ptt"/>
+    <partnerLink name="CBRWebService" partnerLinkType="ns2:DailyInfoSoap_PLT" partnerRole="DailyInfoSoap_Role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="UpdateRate_InputVariable" messageType="ns1:requestMessage"/>
+    <variable name="ReplyUpdateRate_OutputVariable" messageType="ns1:replyMessage"/>
+    <variable name="CBRWebService_EnumValutesXML_InputVariable" messageType="ns2:EnumValutesXMLSoapIn"/>
+    <variable name="CBRWebService_EnumValutesXML_OutputVariable" messageType="ns2:EnumValutesXMLSoapOut"/>
+    <variable name="Variable1" messageType="ns2:EnumValutesXMLSoapIn"/>
+  </variables>
+  <sequence name="main">
+    <receive name="RecieveUpdateRate" partnerLink="MyUpdateRate" portType="ns1:execute_ptt" operation="execute"
+             variable="UpdateRate_InputVariable"/>
+    <assign name="Assign1"></assign>
+    <invoke name="Invoke_CBRWebService" bpelx:invokeAsDetail="no" partnerLink="CBRWebService"
+            portType="ns2:DailyInfoSoap" operation="EnumValutesXML"
+            inputVariable="CBRWebService_EnumValutesXML_InputVariable"
+            outputVariable="CBRWebService_EnumValutesXML_OutputVariable"/>
+    <reply name="ReplyUpdateRate" partnerLink="MyUpdateRate" variable="ReplyUpdateRate_OutputVariable"
+           portType="ns1:execute_ptt" operation="execute"/>
+  </sequence>
+</process>

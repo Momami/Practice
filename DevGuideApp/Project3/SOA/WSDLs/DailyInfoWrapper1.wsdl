@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+    
+     targetNamespace="http://web.cbr.ru/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://web.cbr.ru/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="DailyInfoSoap_PLT">
+        <plnk:role name="DailyInfoSoap_Role" portType="ns1:DailyInfoSoap"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://web.cbr.ru/" location="http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?wsdl"/>
+</wsdl:definitions>
