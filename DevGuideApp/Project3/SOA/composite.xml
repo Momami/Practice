@@ -15,7 +15,10 @@
           location="WSDLs/MyUpdateRate.wsdl" importType="wsdl"/>
   <import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate"
           location="WSDLs/MyUpdateRateWrapper.wsdl" importType="wsdl"/>
-  <import namespace="http://web.cbr.ru/" location="WSDLs/DailyInfoWrapper1.wsdl" importType="wsdl"/>
+  <import namespace="http://web.cbr.ru/" 
+          location="WSDLs/DailyInfo.wsdl" importType="wsdl"/>        
+  <import namespace="http://web.cbr.ru/" 
+          location="WSDLs/DailyInfoWrapper1.wsdl" importType="wsdl"/>
   <service name="MyUpdateRate" ui:wsdlLocation="WSDLs/MyUpdateRate.wsdl">
     <interface.wsdl interface="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate#wsdl.interface(execute_ptt)"/>
     <binding.ws port="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate#wsdl.endpoint(MyUpdateRate/execute_pt)">
@@ -41,10 +44,10 @@
                 location="WSDLs/DailyInfoWrapper1.wsdl" soapVersion="1.1">
       <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">WSDLDriven</property>
     </binding.ws>
-    <binding.ws port="http://web.cbr.ru/#wsdl.endpoint(DailyInfo/DailyInfoSoap12)"
+    <!--binding.ws port="http://web.cbr.ru/#wsdl.endpoint(DailyInfo/DailyInfoSoap12)"
                 location="WSDLs/DailyInfoWrapper1.wsdl" soapVersion="1.2">
       <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">WSDLDriven</property>
-    </binding.ws>
+    </binding.ws-->
   </reference>
   <wire>
     <source.uri>MyUpdateRate</source.uri>

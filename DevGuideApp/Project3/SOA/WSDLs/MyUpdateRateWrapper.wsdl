@@ -14,5 +14,4 @@
     </plnk:partnerLinkType>
     <wsdl:import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate"
          location="MyUpdateRate.wsdl"/>
-    <wsdl:import namespace="http://web.cbr.ru/" location="http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?wsdl"/>
 </wsdl:definitions>

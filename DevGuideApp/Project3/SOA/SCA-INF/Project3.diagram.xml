@@ -15,101 +15,27 @@
         </dgm:operations>
     </dgm:gService>
     <dgm:gReference name="CBRWebService">
-        <dgm:body borderWidth="2" arcRad="20" X="736" Y="41" width="136" height="168">
+        <dgm:body borderWidth="2" arcRad="20" X="656" Y="41" width="136" height="96">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="726" Y="34" width="156" height="182">
+        <dgm:shadow arcRad="20" X="646" Y="34" width="156" height="110">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="CBRWebService" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://web.cbr.ru/#wsdl.interface(DailyInfoSoap)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
         <dgm:operations>
-            <dgm:item>SaldoXML</dgm:item>
-            <dgm:item>ROISfixXML</dgm:item>
-            <dgm:item>RuoniaXML</dgm:item>
-            <dgm:item>OstatDepoXML</dgm:item>
-            <dgm:item>ValIntDayXML</dgm:item>
-            <dgm:item>ValIntDay</dgm:item>
-            <dgm:item>OstatDepo</dgm:item>
-            <dgm:item>ROISfix</dgm:item>
-            <dgm:item>Ruonia</dgm:item>
-            <dgm:item>mrrf7D</dgm:item>
-            <dgm:item>mrrf7DXML</dgm:item>
-            <dgm:item>RepoDebtUSD</dgm:item>
-            <dgm:item>RepoDebtUSDXML</dgm:item>
-            <dgm:item>mrrf</dgm:item>
-            <dgm:item>mrrfXML</dgm:item>
-            <dgm:item>Saldo</dgm:item>
-            <dgm:item>NewsInfoXML</dgm:item>
-            <dgm:item>OmodInfoXML</dgm:item>
-            <dgm:item>XVol</dgm:item>
-            <dgm:item>XVolXML</dgm:item>
-            <dgm:item>MainInfoXML</dgm:item>
-            <dgm:item>AllDataInfoXML</dgm:item>
-            <dgm:item>NewsInfo</dgm:item>
-            <dgm:item>SwapDayTotal</dgm:item>
-            <dgm:item>SwapDayTotalXML</dgm:item>
-            <dgm:item>SwapDynamicXML</dgm:item>
-            <dgm:item>SwapInfoSellUSDVolXML</dgm:item>
-            <dgm:item>SwapInfoSellUSDVol</dgm:item>
-            <dgm:item>SwapInfoSellUSD</dgm:item>
-            <dgm:item>SwapInfoSellUSDXML</dgm:item>
-            <dgm:item>BiCurBaseXML</dgm:item>
-            <dgm:item>BiCurBase</dgm:item>
-            <dgm:item>BiCurBacketXML</dgm:item>
-            <dgm:item>BiCurBacket</dgm:item>
-            <dgm:item>SwapDynamic</dgm:item>
-            <dgm:item>SwapMonthTotal</dgm:item>
-            <dgm:item>SwapMonthTotalXML</dgm:item>
-            <dgm:item>MKR</dgm:item>
-            <dgm:item>MKRXML</dgm:item>
-            <dgm:item>DV</dgm:item>
-            <dgm:item>DVXML</dgm:item>
-            <dgm:item>Repo_debt</dgm:item>
-            <dgm:item>Repo_debtXML</dgm:item>
-            <dgm:item>Coins_base</dgm:item>
-            <dgm:item>Coins_baseXML</dgm:item>
-            <dgm:item>FixingBase</dgm:item>
-            <dgm:item>FixingBaseXML</dgm:item>
-            <dgm:item>Overnight</dgm:item>
-            <dgm:item>OvernightXML</dgm:item>
-            <dgm:item>Bauction</dgm:item>
-            <dgm:item>BauctionXML</dgm:item>
-            <dgm:item>DepoDynamicXML</dgm:item>
-            <dgm:item>DepoDynamic</dgm:item>
-            <dgm:item>OstatDynamicXML</dgm:item>
-            <dgm:item>OstatDynamic</dgm:item>
-            <dgm:item>DragMetDynamicXML</dgm:item>
-            <dgm:item>DragMetDynamic</dgm:item>
-            <dgm:item>GetLatestDateTime</dgm:item>
-            <dgm:item>GetLatestDate</dgm:item>
-            <dgm:item>GetLatestDateTimeSeld</dgm:item>
-            <dgm:item>GetLatestDateSeld</dgm:item>
             <dgm:item>EnumValutesXML</dgm:item>
-            <dgm:item>EnumValutes</dgm:item>
-            <dgm:item>GetLatestReutersDateTime</dgm:item>
-            <dgm:item>EnumReutersValutesXML</dgm:item>
-            <dgm:item>EnumReutersValutes</dgm:item>
-            <dgm:item>GetReutersCursOnDateXML</dgm:item>
-            <dgm:item>GetReutersCursOnDate</dgm:item>
-            <dgm:item>GetReutersCursDynamicXML</dgm:item>
-            <dgm:item>GetReutersCursDynamic</dgm:item>
-            <dgm:item>GetCursDynamicXML</dgm:item>
-            <dgm:item>GetCursDynamic</dgm:item>
             <dgm:item>GetCursOnDateXML</dgm:item>
-            <dgm:item>GetSeldCursOnDateXML</dgm:item>
-            <dgm:item>GetSeldCursOnDate</dgm:item>
-            <dgm:item>GetCursOnDate</dgm:item>
         </dgm:operations>
     </dgm:gReference>
     <dgm:gComponent name="UpdateRateProcess">
-        <dgm:body borderWidth="2" arcRad="20" X="382" Y="26" width="130" height="61">
+        <dgm:body borderWidth="2" arcRad="20" X="342" Y="26" width="130" height="61">
             <dgm:borderColor r="69" g="113" b="140"/>
             <dgm:lightBgColor r="166" g="208" b="230"/>
             <dgm:darkBgColor r="99" g="162" b="201"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="372" Y="19" width="150" height="77">
+        <dgm:shadow arcRad="20" X="332" Y="19" width="150" height="77">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="MyUpdateRate" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate#wsdl.interface(execute_ptt)"/>
@@ -117,12 +43,12 @@
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
     </dgm:gComponent>
     <dgm:gWireLink source="MyUpdateRate" target="UpdateRateProcess/MyUpdateRate" width="2">
-        <dgm:gSegment X1="168" Y1="51" X2="372" Y2="51"/>
+        <dgm:gSegment X1="168" Y1="51" X2="332" Y2="51"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="UpdateRateProcess/CBRWebService" target="CBRWebService" width="2">
-        <dgm:gSegment X1="522" Y1="51" X2="726" Y2="51"/>
+        <dgm:gSegment X1="482" Y1="51" X2="646" Y2="51"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>

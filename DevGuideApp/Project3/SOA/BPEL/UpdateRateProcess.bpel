@@ -9,16 +9,23 @@
   Purpose: Empty BPEL Process
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
-<process name="UpdateRateProcess"
-               targetNamespace="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
-               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
-               xmlns:client="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
-               xmlns:ora="http://schemas.oracle.com/xpath/extension"
-               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
-               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+<process name="UpdateRateProcess" targetNamespace="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/DevGuideApp/Project3/UpdateRateProcess"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension" xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
          xmlns:ns1="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate" xmlns:ns2="http://web.cbr.ru/"
-         xmlns:ui="http://xmlns.oracle.com/soa/designer">
-
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://www.example.org">
   <!--
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      ORCHESTRATION LOGIC
@@ -26,14 +33,11 @@
      services integrated within this business process
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   -->
-  <import namespace="http://web.cbr.ru/" location="http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?wsdl"
-          importType="http://schemas.xmlsoap.org/wsdl/"/>
   <import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate"
           location="../WSDLs/MyUpdateRateWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
           ui:processWSDL="true"/>
-  <import namespace="http://web.cbr.ru/"
-          location="../WSDLs/DailyInfoWrapper1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
-          ui:processWSDL="true"/>        
+  <import namespace="http://web.cbr.ru/" location="../WSDLs/DailyInfoWrapper1.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
   <partnerLinks>
     <partnerLink name="MyUpdateRate" partnerLinkType="ns1:MyUpdateRate" myRole="execute_ptt"/>
     <partnerLink name="CBRWebService" partnerLinkType="ns2:DailyInfoSoap_PLT" partnerRole="DailyInfoSoap_Role"/>
@@ -43,16 +47,53 @@
     <variable name="ReplyUpdateRate_OutputVariable" messageType="ns1:replyMessage"/>
     <variable name="CBRWebService_EnumValutesXML_InputVariable" messageType="ns2:EnumValutesXMLSoapIn"/>
     <variable name="CBRWebService_EnumValutesXML_OutputVariable" messageType="ns2:EnumValutesXMLSoapOut"/>
-    <variable name="Variable1" messageType="ns2:EnumValutesXMLSoapIn"/>
+    <variable name="InvokeGetCursOnDate_GetCursOnDateXML_InputVariable" messageType="ns2:GetCursOnDateXMLSoapIn"/>
+    <variable name="InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable" messageType="ns2:GetCursOnDateXMLSoapOut"/>
   </variables>
   <sequence name="main">
     <receive name="RecieveUpdateRate" partnerLink="MyUpdateRate" portType="ns1:execute_ptt" operation="execute"
-             variable="UpdateRate_InputVariable"/>
-    <assign name="Assign1"></assign>
+             variable="UpdateRate_InputVariable" createInstance="yes"/>
+    <assign name="AssignEnumXML">
+      <copy>
+        <from>'false'</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$CBRWebService_EnumValutesXML_InputVariable.parameters/ns2:Seld</to>
+      </copy>
+    </assign>
     <invoke name="Invoke_CBRWebService" bpelx:invokeAsDetail="no" partnerLink="CBRWebService"
             portType="ns2:DailyInfoSoap" operation="EnumValutesXML"
             inputVariable="CBRWebService_EnumValutesXML_InputVariable"
             outputVariable="CBRWebService_EnumValutesXML_OutputVariable"/>
+    <sequence name="GetCursOnDate">
+      <assign name="AssignGetValuteOnDate">
+        <copy>
+          <from>$UpdateRate_InputVariable.part1/ns3:dateOnValute</from>
+          <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeGetCursOnDate_GetCursOnDateXML_InputVariable.parameters/ns2:On_date</to>
+        </copy>
+      </assign>
+      <invoke name="InvokeGetCursOnDate" bpelx:invokeAsDetail="no" partnerLink="CBRWebService"
+              portType="ns2:DailyInfoSoap" operation="GetCursOnDateXML"
+              inputVariable="InvokeGetCursOnDate_GetCursOnDateXML_InputVariable"
+              outputVariable="InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable"/>
+    </sequence>
+    <forEach parallel="no" counterName="ForEachCounterValute" name="ForEachValute">
+      <startCounterValue>1</startCounterValue>
+      <finalCounterValue>count($UpdateRate_InputVariable.part1/ns3:valute)</finalCounterValue>
+      <scope name="Scope1">
+        <if name="If1">
+          <assign name="Assign1">
+            <?audit suppress oracle.ide.xml.validation-incomplete?>
+          </assign>
+          <else>
+            <assign name="Assign2">
+              <bpelx:append>
+                <bpelx:from>'Valute Not Found'</bpelx:from>
+                <bpelx:to>$ReplyUpdateRate_OutputVariable.part1/ns3:value</bpelx:to>
+              </bpelx:append>
+            </assign>
+          </else>
+        </if>
+      </scope>
+    </forEach>
     <reply name="ReplyUpdateRate" partnerLink="MyUpdateRate" variable="ReplyUpdateRate_OutputVariable"
            portType="ns1:execute_ptt" operation="execute"/>
   </sequence>

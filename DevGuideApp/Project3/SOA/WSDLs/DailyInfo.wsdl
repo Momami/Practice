@@ -1,0 +1,60 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions name="DailyInfo" targetNamespace="http://web.cbr.ru/" xmlns:tns="http://web.cbr.ru/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://web.cbr.ru/" schemaLocation="../Schemas/DailyInfo.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="EnumValutesXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:EnumValutesXML"/>
+  </wsdl:message>
+  <wsdl:message name="EnumValutesXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:EnumValutesXMLResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetCursOnDateXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCursOnDateXML"/>
+  </wsdl:message>
+  <wsdl:message name="GetCursOnDateXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCursOnDateXMLResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="DailyInfoSoap">
+    <wsdl:operation name="EnumValutesXML">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Справочник по кодам валют (как XMLDocument)</wsdl:documentation>
+      <wsdl:input message="tns:EnumValutesXMLSoapIn"/>
+      <wsdl:output message="tns:EnumValutesXMLSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCursOnDateXML">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Получение ежедневных курсов валют (как XMLDocument)</wsdl:documentation>
+      <wsdl:input message="tns:GetCursOnDateXMLSoapIn"/>
+      <wsdl:output message="tns:GetCursOnDateXMLSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DailyInfoSoap" type="tns:DailyInfoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="EnumValutesXML">
+      <soap:operation style="document" soapAction="http://web.cbr.ru/EnumValutesXML"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCursOnDateXML">
+      <soap:operation style="document" soapAction="http://web.cbr.ru/GetCursOnDateXML"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DailyInfo">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Веб сервис для получения ежедневных данных ver 28.05.2019</wsdl:documentation>
+    <wsdl:port name="DailyInfoSoap" binding="tns:DailyInfoSoap">
+      <soap:address location="http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

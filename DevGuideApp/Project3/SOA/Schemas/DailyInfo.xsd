@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://web.cbr.ru/" targetNamespace="http://web.cbr.ru/"
+            elementFormDefault="qualified">
+  <xsd:element name="EnumValutesXML">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="1" maxOccurs="1" name="Seld" type="xsd:boolean"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="EnumValutesXMLResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="1" name="EnumValutesXMLResult">
+          <xsd:complexType mixed="true">
+            <xsd:sequence>
+              <xsd:element name="ValuteData" minOccurs="1" maxOccurs="1">
+                <xsd:complexType mixed="true">
+                  <xsd:sequence>
+                    <xsd:element name="EnumValutes" minOccurs="1" maxOccurs="unbounded">
+                      <xsd:complexType mixed="true">
+                        <xsd:sequence>
+                          <xsd:element name="Vcode" type="xsd:string"/>
+                          <xsd:element name="Vname" type="xsd:string"/>
+                          <xsd:element name="VEngname" type="xsd:string"/>
+                          <xsd:element name="Vnom" type="xsd:string"/>
+                          <xsd:element name="VcommonCode" type="xsd:string"/>
+                          <xsd:element name="VnumCode" type="xsd:string"/>
+                          <xsd:element name="VcharCode" type="xsd:string"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GetCursOnDateXML">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="1" maxOccurs="1" name="On_date" type="xsd:dateTime"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GetCursOnDateXMLResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="1" name="EnumValutesXMLResult">
+          <xsd:complexType mixed="true">
+            <xsd:sequence>
+              <xsd:element name="ValuteData" minOccurs="1" maxOccurs="1">
+                <xsd:complexType mixed="true">
+                  <xsd:sequence>
+                    <xsd:element name="ValuteCursOnDate" minOccurs="1" maxOccurs="unbounded">
+                      <xsd:complexType mixed="true">
+                        <xsd:sequence>
+                          <xsd:element name="Vname" type="xsd:string"/>
+                          <xsd:element name="Vnom" type="xsd:string"/>
+                          <xsd:element name="Vcurs" type="xsd:string"/>
+                          <xsd:element name="Vcode" type="xsd:string"/>
+                          <xsd:element name="VchCode" type="xsd:string"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
