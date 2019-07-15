@@ -3,19 +3,23 @@
             targetNamespace="http://www.example.org" elementFormDefault="qualified">
   <xsd:element name="UpdateRateRequest" type="valutesRequest"/>
   <xsd:element name="UpdateRateResponse" type="valutesResponse"/>
-  
-    <xsd:complexType name="valutesRequest">
+  <xsd:complexType name="valutesRequest">
     <xsd:sequence>
-    <xsd:element name="dateOnValute" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
-    <xsd:element name="valute" minOccurs="1" maxOccurs="unbounded" type="xsd:string"/>
+      <xsd:element name="dateOnValute" minOccurs="1" maxOccurs="1" type="xsd:dateTime"/>
+      <xsd:element name="valute" minOccurs="1" maxOccurs="unbounded" type="xsd:string"/>
     </xsd:sequence>
-    </xsd:complexType>
-    
-    <xsd:complexType name="valutesResponse">
+  </xsd:complexType>
+  <xsd:complexType name="valutesResponse">
     <xsd:sequence>
-    <xsd:element name="value" minOccurs="1" maxOccurs="unbounded" type="xsd:string"/>
+      <xsd:element name="responseValue" minOccurs="1" maxOccurs="unbounded" type="valutes"/>
     </xsd:sequence>
-    </xsd:complexType>
+  </xsd:complexType>
+    <xsd:complexType name="valutes">
+    <xsd:sequence>
+      <xsd:element name="name" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+      <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
 </xsd:schema>
 
 

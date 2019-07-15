@@ -14,8 +14,7 @@ def recieve_valuteID(cnn):
     valute_date = dict()
     for i in range(len(valutes)):
         valute_date[valutes[i]] = datetime.strptime(date[i], '%Y-%m-%d')
-    index = 0
-    return valute_date, index
+    return valute_date
 
 
 def connect_db():
@@ -28,7 +27,6 @@ def connect_db():
 
 def find_rate_in_DB(valute_name, cnn, res):
     data = pd.read_sql("select RateVal from Rate where ValuteID = '" + valute_name + "'", cnn)
-    #return valute_name, data['RateVal'][0]
     res[valute_name] = data['RateVal'][0]
 
 
@@ -41,7 +39,7 @@ def main_function():
     date = datetime.strptime(input("Введите дату в формате DD-MM-YYYY: "),
                              '%d-%m-%Y')
     conn = connect_db()
-    val_day, index = recieve_valuteID(conn)
+    val_day = recieve_valuteID(conn)
     for valute in valutes:
         if valute in val_day.keys():
             if (date - val_day[valute]).days <= day_actual or \
@@ -49,7 +47,10 @@ def main_function():
                 find_rate_in_DB(valute, conn, result)
                 continue
         upgrade.append(valute)
-    mas_update, non_valid = update_rate(upgrade, date)
+    # раскоментировать при работе напрямую с ЦБ
+    # mas_update, non_valid = update_rate(upgrade, date)
+    # раскомментировать при работе с композитом
+    mas_update, non_valid = update_rate_composite(upgrade, date)
     for elem, rate in mas_update.items():
         if elem in val_day.keys():
             update_DB(elem, rate, date, conn)
@@ -103,10 +104,11 @@ def enum_valutes(cl, upg):
         if current:
             res.append(elem)
         else:
-            exc[elem] = "Not Found"
+            exc[elem] = "Valute Not Found"
     return res, exc
 
 
+# поиск курса валюты без композита (напрямую с ЦБ)
 def update_rate(upgrade, date):
     client = Client("http://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx?WSDL")
     validate_valute, non_validate = enum_valutes(client, upgrade)
@@ -121,8 +123,8 @@ def update_rate(upgrade, date):
             "./ValuteCursOnDate[VchCode='" + elem + "']"  # /Vcurs
             # , namespaces
         )
-       # if new_elem is None:
-       #     needed_currencies[elem] = 'Not Found'
+        if not new_elem:
+            non_validate[elem] = 'Curs Not Found'
         for valute in new_elem:
             name = ''
             value = ''
@@ -139,7 +141,35 @@ def update_rate(upgrade, date):
     return needed_currencies, non_validate
 
 
-def update_rate_composite(upgrade, date): pass
+# запрос к композиту
+def send_composite(client, data):
+    r = client.execute(**data)
+    return r
+
+
+# поиск курса валюты с помощью композита
+def update_rate_composite(upgrade, date):
+    # изменить строку на WSDL сервиса композита
+    client = Client('WSDL композита')
+    req_data = {'dateOnValute': date, 'valute': upgrade}
+
+    response = send_composite(client, req_data)
+    dom = ET.fromstring(etree_to_string(response).decode())
+
+    non_valid, result = dict(), dict()
+    for valute in dom:
+        name = ''
+        value = ''
+        for node in valute.getiterator():
+            if node.tag == 'VchCode':
+                name = node.text
+            if node.tag == 'Vcurs':
+                value = node.text
+        if value == 'Curs Not Found' or value == 'Valute Not Found':
+            non_valid[name] = value
+        else:
+            result[name] = value
+    return result, non_valid
 
 
 if __name__ == "__main__":

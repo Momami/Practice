@@ -4,15 +4,17 @@
    <annotationfile/>
    <iconize/>
    <partnerlink_locations>
-      <partnerlink name="MyUpdateRate" x="11" y="499" side="left"/>
-      <partnerlink name="CBRWebService" x="730" y="142" side="right"/>
+      <partnerlink name="MyUpdateRate" x="11" y="890" side="left"/>
+      <partnerlink name="CBRWebService" x="897" y="447" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,504,852,377" show_swimlanes="true">
+   <graph_layout viewport="122,0,830,439" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
-      <layout_item collapsed="true" xpath="/process/sequence/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/forEach" type="foreach"/>
       <layout_item collapsed="false" xpath="/process/sequence/forEach/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/forEach/scope/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/forEach/scope/sequence/if/sequence" type="sequence"/>
    </graph_layout>
    <bookmarks/>
 </graphics>

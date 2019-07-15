@@ -25,7 +25,8 @@
          xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
          xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
-         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://www.example.org">
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://www.example.org"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!--
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      ORCHESTRATION LOGIC
@@ -33,6 +34,8 @@
      services integrated within this business process
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   -->
+  <import namespace="http://web.cbr.ru/" location="../WSDLs/DailyInfo.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
   <import namespace="http://oracle.com/sca/soapservice/DevGuideApp/Project3/MyUpdateRate"
           location="../WSDLs/MyUpdateRateWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
           ui:processWSDL="true"/>
@@ -63,6 +66,15 @@
             portType="ns2:DailyInfoSoap" operation="EnumValutesXML"
             inputVariable="CBRWebService_EnumValutesXML_InputVariable"
             outputVariable="CBRWebService_EnumValutesXML_OutputVariable"/>
+    <assign name="XformToSchema">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("../Transformations/XformToSchema.xsl", $CBRWebService_EnumValutesXML_OutputVariable.parameters)</from>
+        <to variable="CBRWebService_EnumValutesXML_OutputVariable" part="parameters"/>
+      </copy>
+    </assign>
     <sequence name="GetCursOnDate">
       <assign name="AssignGetValuteOnDate">
         <copy>
@@ -74,24 +86,67 @@
               portType="ns2:DailyInfoSoap" operation="GetCursOnDateXML"
               inputVariable="InvokeGetCursOnDate_GetCursOnDateXML_InputVariable"
               outputVariable="InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable"/>
+      <assign name="GetCursToSchema">
+        <bpelx:annotation>
+          <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+        </bpelx:annotation>
+        <copy>
+          <from>ora:doXSLTransformForDoc("../Transformations/GetCursToSchema.xsl", $InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters)</from>
+          <to variable="InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable" part="parameters"/>
+        </copy>
+      </assign>
     </sequence>
     <forEach parallel="no" counterName="ForEachCounterValute" name="ForEachValute">
       <startCounterValue>1</startCounterValue>
       <finalCounterValue>count($UpdateRate_InputVariable.part1/ns3:valute)</finalCounterValue>
       <scope name="Scope1">
-        <if name="If1">
-          <assign name="Assign1">
-            <?audit suppress oracle.ide.xml.validation-incomplete?>
+        <variables>
+          <variable name="currentValuteName" type="xsd:string"/>
+        </variables>
+        <sequence name="Sequence1">
+          <assign name="AssignCarrentValute">
+            <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+              <from>$UpdateRate_InputVariable.part1/ns3:valute[$ForEachCounterValute]</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$currentValuteName</to>
+            </copy>
           </assign>
-          <else>
-            <assign name="Assign2">
-              <bpelx:append>
-                <bpelx:from>'Valute Not Found'</bpelx:from>
-                <bpelx:to>$ReplyUpdateRate_OutputVariable.part1/ns3:value</bpelx:to>
-              </bpelx:append>
-            </assign>
-          </else>
-        </if>
+          <assign name="AssignNameValute">
+            <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+              <from>$UpdateRate_InputVariable.part1/ns3:valute[$ForEachCounterValute]</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyUpdateRate_OutputVariable.part1/ns3:responseValue[$ForEachCounterValute]/ns3:name</to>
+            </copy>
+          </assign>
+          <if name="FindInEnumValuteXML">
+            <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($CBRWebService_EnumValutesXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:EnumValutes[ns2:VcharCode = $currentValuteName]) &gt; 0</condition>
+            <sequence name="Sequence2">
+              <if name="FindInCursOnDateXML">
+                <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode=$currentValuteName]) &gt; 0</condition>
+                <assign name="AssignCurs">
+                  <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                    <from>$InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode=$currentValuteName]/ns2:Vcurs</from>
+                    <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyUpdateRate_OutputVariable.part1/ns3:responseValue[$ForEachCounterValute]/ns3:value</to>
+                  </copy>
+                </assign>
+                <else>
+                  <assign name="AssignNotCurs">
+                    <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                      <from>'Curs Not Found'</from>
+                      <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyUpdateRate_OutputVariable.part1/ns3:responseValue[$ForEachCounterValute]/ns3:value</to>
+                    </copy>
+                  </assign>
+                </else>
+              </if>
+            </sequence>
+            <else>
+              <assign name="AssignNotValute">
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>'Valute Not Found'</from>
+                  <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyUpdateRate_OutputVariable.part1/ns3:responseValue[$ForEachCounterValute]/ns3:value</to>
+                </copy>
+              </assign>
+            </else>
+          </if>
+        </sequence>
       </scope>
     </forEach>
     <reply name="ReplyUpdateRate" partnerLink="MyUpdateRate" variable="ReplyUpdateRate_OutputVariable"
