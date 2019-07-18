@@ -49,7 +49,7 @@
   <xsd:element name="GetCursOnDateXMLResponse">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element minOccurs="0" maxOccurs="1" name="EnumValutesXMLResult">
+        <xsd:element minOccurs="0" maxOccurs="1" name="GetCursOnDateXMLResult">
           <xsd:complexType mixed="true">
             <xsd:sequence>
               <xsd:element name="ValuteData" minOccurs="1" maxOccurs="1">

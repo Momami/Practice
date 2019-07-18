@@ -120,10 +120,10 @@
             <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($CBRWebService_EnumValutesXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:EnumValutes[ns2:VcharCode = $currentValuteName]) &gt; 0</condition>
             <sequence name="Sequence2">
               <if name="FindInCursOnDateXML">
-                <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode=$currentValuteName]) &gt; 0</condition>
+                <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:GetCursOnDateXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode = $currentValuteName]) &gt; 0</condition>
                 <assign name="AssignCurs">
                   <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
-                    <from>$InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:EnumValutesXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode=$currentValuteName]/ns2:Vcurs</from>
+                    <from>$InvokeGetCursOnDate_GetCursOnDateXML_OutputVariable.parameters/ns2:GetCursOnDateXMLResult/ns2:ValuteData/ns2:ValuteCursOnDate[ns2:VchCode=$currentValuteName]/ns2:Vcurs</from>
                     <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyUpdateRate_OutputVariable.part1/ns3:responseValue[$ForEachCounterValute]/ns3:value</to>
                   </copy>
                 </assign>

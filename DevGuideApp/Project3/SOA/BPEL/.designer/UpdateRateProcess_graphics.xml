@@ -7,7 +7,7 @@
       <partnerlink name="MyUpdateRate" x="11" y="890" side="left"/>
       <partnerlink name="CBRWebService" x="897" y="447" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="122,0,830,439" show_swimlanes="true">
+   <graph_layout viewport="165,1099,830,447" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/sequence" type="sequence"/>

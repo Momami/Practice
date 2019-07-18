@@ -143,28 +143,22 @@ def update_rate(upgrade, date):
 
 # запрос к композиту
 def send_composite(client, data):
-    r = client.execute(**data)
+    r = client.service.execute(**data)
     return r
 
 
 # поиск курса валюты с помощью композита
 def update_rate_composite(upgrade, date):
     # изменить строку на WSDL сервиса композита
-    client = Client('WSDL композита')
+    wsdl = 'http://ulbs12-sales-app01.neoflex.ru:8001/soa-infra/services/default/Project3/MyUpdateRate?WSDL'
+    client = Client(wsdl)
     req_data = {'dateOnValute': date, 'valute': upgrade}
 
     response = send_composite(client, req_data)
-    dom = ET.fromstring(etree_to_string(response).decode())
 
     non_valid, result = dict(), dict()
-    for valute in dom:
-        name = ''
-        value = ''
-        for node in valute.getiterator():
-            if node.tag == 'VchCode':
-                name = node.text
-            if node.tag == 'Vcurs':
-                value = node.text
+    for valute in response:
+        name, value = valute['name'], valute['value']
         if value == 'Curs Not Found' or value == 'Valute Not Found':
             non_valid[name] = value
         else:

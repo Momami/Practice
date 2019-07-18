@@ -20,9 +20,9 @@
    <!--User Editing allowed BELOW this line - DO NOT DELETE THIS LINE-->
    <xsl:template match="/">
       <ns0:GetCursOnDateXMLResponse>
-         <ns0:EnumValutesXMLResult>
+         <ns0:GetCursOnDateXMLResult>
             <ns0:ValuteData>
-               <xsl:for-each select="/ns0:GetCursOnDateXMLResponse/ns0:EnumValutesXMLResult/ValuteData/ValuteCursOnDate">
+               <xsl:for-each select="/ns0:GetCursOnDateXMLResponse/ns0:GetCursOnDateXMLResult/ValuteData/ValuteCursOnDate">
                   <ns0:ValuteCursOnDate>
                      <ns0:Vname>
                         <xsl:value-of select="Vname"/>
@@ -36,7 +36,7 @@
                   </ns0:ValuteCursOnDate>
                </xsl:for-each>
             </ns0:ValuteData>
-         </ns0:EnumValutesXMLResult>
+         </ns0:GetCursOnDateXMLResult>
       </ns0:GetCursOnDateXMLResponse>
    </xsl:template>
 </xsl:stylesheet>
