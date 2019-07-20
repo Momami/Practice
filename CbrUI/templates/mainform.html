@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel=stylesheet type=text/css href="/static/style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Курс валют ЦБ</title>
+</head>
+<body>
+
+
+
+<div class="page">
+    <h1>Курс валют</h1>
+    {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+    <form action="{{ url_for('check') }}" method="post">
+        <table>
+        <tr>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+            <th><label>Введите валюты через enter: </label>
+                <dt><textarea name=valutes cols="30" rows="10" placeholder="Например, USD или ZAR"></textarea>
+             </th>
+            <th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+            <th class="thl">
+                <label>Выберите дату: </label>
+                <dt><input name=date type="date"></dt>
+             </th>
+
+        </tr>
+        </table>
+        <input type="submit" value="Найти курс">
+
+    </form>
+    <form>
+        <h1>Результат</h1>
+        <ul class=entries>
+            {%if response %}
+  {% for val, curs in response.items() %}
+    <li><h2>{{ val + ": " + curs }}</h2>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+            {%else%}{{"Здесь пока ничего нет..."}}
+            {%endif%}
+        </ul>
+    </form>
+</div>
+</body>
+</html>
