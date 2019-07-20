@@ -1,0 +1,30 @@
+<!doctype html>
+<title>Переводчик онлайн</title>
+<link rel=stylesheet type=text/css href="/static/style.css">
+<div class=page>
+  <h1>Переводчик онлайн</h1>
+    {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <form action="{{ url_for('translate') }}" method=post>
+    <dl>
+      <label>Английский язык</label>
+      <dt><textarea name=translate placeholder="Введите текст для перевода"
+        cols="77" rows="7"></textarea>
+      </dt>
+
+      <dt>Выберите целевой язык:
+      <select name="language">
+        {% for lang in langs %}
+          <option>{{lang}}</option>
+        {% endfor %}
+      </select>
+        <input type=submit value=Перевести>
+
+    </dl>
+  </form>
+  <div class="response">
+    <label>Ответ</label>
+    <dt>
+      <textarea name="receive" cols="77" rows="7">{% if response %}{{response}}{% endif %}</textarea>
+    </dt>
+  </div>
+</div>
