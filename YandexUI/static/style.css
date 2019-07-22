@@ -1,6 +1,6 @@
-body            { font-family: sans-serif; background: #AACBE2; }
-h1      { color: rgb(64,199,129); }
-h1          { font-family: 'Georgia', serif; margin: 0; }
+body            { font-family: sans-serif; background: #e2f3ff; }
+a, h1, h2      { color: rgb(113, 164, 199); }
+h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.2em; }
 
@@ -10,18 +10,18 @@ input[type="submit"] {
   text-decoration: none;
   padding: .8em 1em calc(.8em + 3px);
   border-radius: 3px;
-  background: rgb(64,199,129);
-  box-shadow: 0 -3px rgb(53,167,110) inset;
+  background: rgb(111, 185, 199);
+  box-shadow: 0 -3px rgb(65, 100, 167) inset;
   transition: 0.2s;
 }
-input[type="submit"]:hover { background: rgb(53, 167, 110); }
+input[type="submit"]:hover { background: rgb(111, 185, 199); }
 input[type="submit"]:active {
-  background: rgb(33,147,90);
-  box-shadow: 0 3px rgb(33,147,90) inset;
+  background: rgb(65, 100, 167);
+  box-shadow: 0 3px rgb(65, 100, 167) inset;
 }
 
 .page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
-                  padding: 0.8em; background: black; }
+                  padding: 0.8em; background: #d0eeff; }
 .entries        { list-style: none; margin: 0; padding: 0; }
 .entries li     { margin: 0.8em 1.2em; }
 .entries li h2  { margin-left: -1em; }

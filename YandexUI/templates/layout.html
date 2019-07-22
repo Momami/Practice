@@ -8,7 +8,7 @@
     <dl>
       <label>Английский язык</label>
       <dt><textarea name=translate placeholder="Введите текст для перевода"
-        cols="77" rows="7"></textarea>
+        cols="68" rows="7"></textarea>
       </dt>
 
       <dt>Выберите целевой язык:
@@ -17,14 +17,16 @@
           <option>{{lang}}</option>
         {% endfor %}
       </select>
-        <input type=submit value=Перевести>
 
+        <dt><input type="checkbox" id="okay" checked>
+        <label for="okay">Выполнить проверку текста</label>
+        <dt><input type=submit value=Перевести>
     </dl>
   </form>
   <div class="response">
     <label>Ответ</label>
     <dt>
-      <textarea name="receive" cols="77" rows="7">{% if response %}{{response}}{% endif %}</textarea>
+      <textarea name="receive" cols="68" rows="7">{% if response %}{{response}}{% endif %}</textarea>
     </dt>
   </div>
 </div>

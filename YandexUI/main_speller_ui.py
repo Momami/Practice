@@ -15,8 +15,7 @@ PASSWORD = 'default'
 
 
 # create our little application :)
-app = Flask(__name__, static_url_path='',
-            static_folder='CheckValute/static')
+app = Flask(__name__)
 app.config.from_object(__name__)
 langs = None
 
