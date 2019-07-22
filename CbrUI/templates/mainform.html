@@ -31,17 +31,15 @@
 
     </form>
     <form>
+        {%if response %}
         <h1>Результат</h1>
         <ul class=entries>
-            {%if response %}
   {% for val, curs in response.items() %}
     <li><h2>{{ val + ": " + curs }}</h2>
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}
-            {%else%}{{"Здесь пока ничего нет..."}}
-            {%endif%}
+
         </ul>
+        {%endif%}
     </form>
 </div>
 </body>
