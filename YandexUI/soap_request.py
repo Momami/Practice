@@ -67,11 +67,14 @@ def link_wsdl():
     return cl
 
 
-def main_ui(text, lang):
+def main_ui(text, lang, check):
     cl = link_wsdl()
     req_data = {'text': text, 'lang': 'en', 'options': 32,
                 'format': 'plain'}
-    r = send_request_not_comp(cl, req_data)
+    if check:
+        r = send_request_not_comp(cl, req_data)
+    else:
+        r = None
     translate = treatment_response(r, text, lang)
     if translate is None:
         return None
@@ -97,12 +100,9 @@ def main_function():
 
 
 def get_lang():
-    dict_lang = {'ru': 'Русский', 'de': 'Немецкий',
-                 'hy': '', 'es': 'Испанский',
-                 'pl': '', 'be': '',
-                 'sq': ''}
     tr = treatment_opt('api')
     list_lang = list(tr.langs)
+    list_lang.sort()
     return list_lang
 
 

@@ -1,9 +1,5 @@
 # all the imports
-#from __future__ import with_statement
-import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash
-from contextlib import closing
+from flask import Flask, request, render_template
 import soap_request
 
 # configuration
@@ -14,7 +10,7 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 
 
-# create our little application :)
+# create our application
 app = Flask(__name__)
 app.config.from_object(__name__)
 langs = None
@@ -33,7 +29,8 @@ def translate():
     if request.method == 'POST':
         if request.form['translate'] != '':
             response = soap_request.main_ui(request.form['translate'],
-                                            request.form['language'])
+                                            request.form['language'],
+                                            request.form.get('boxcheck'))
             if response is not None:
                 return render_template('layout.html', langs=langs, response=response)
             else:
