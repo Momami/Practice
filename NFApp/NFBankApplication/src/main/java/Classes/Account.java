@@ -1,5 +1,8 @@
 package Classes;
 
+import NewExceptions.DateException;
+import NewExceptions.IdNotValidException;
+
 import java.math.BigInteger;
 import java.sql.Date;
 
@@ -26,25 +29,40 @@ public class Account {
         }
     }
 
-    private BigInteger idAccount;
+    private BigInteger id = null;
+    private String idAccount;
     private float balance;
     private Date open_date;
     private Date close_date;
     private AccountStatus status;
+    private BigInteger idClient;
 
-    public Account(BigInteger idAccount, float balance, Date open_date, Date close_date, AccountStatus status) {
-        this.idAccount = idAccount;
-        this.balance = balance;
-        this.open_date = open_date;
-        this.close_date = close_date;
-        this.status = status;
+    public Account(String idAccount, float balance, Date open_date, Date close_date, AccountStatus status,
+                   BigInteger idClient) throws DateException, IdNotValidException{
+        setIdAccount(idAccount);
+        setBalance(balance);
+        setOpen_date(open_date);
+        setClose_date(close_date);
+        setStatus(status);
+        setIdClient(idClient);
     }
 
-    public BigInteger getIdAccount() {
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    public String getIdAccount() {
         return idAccount;
     }
 
-    public void setIdAccount(BigInteger idAccount) {
+    public void setIdAccount(String idAccount) throws IdNotValidException{
+        if(idAccount == null || idAccount.length() != 20){
+            throw new IdNotValidException("Идентификатор должен состоять из 20 цифр!");
+        }
         this.idAccount = idAccount;
     }
 
@@ -60,7 +78,10 @@ public class Account {
         return open_date;
     }
 
-    public void setOpen_date(Date open_date) {
+    public void setOpen_date(Date open_date) throws DateException{
+        if(open_date == null){
+            throw new DateException("Введите дату открытия счета!");
+        }
         this.open_date = open_date;
     }
 
@@ -77,6 +98,17 @@ public class Account {
     }
 
     public void setStatus(AccountStatus status) {
+        if (status == null){
+            return;
+        }
         this.status = status;
+    }
+
+    public BigInteger getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(BigInteger idClient) {
+        this.idClient = idClient;
     }
 }

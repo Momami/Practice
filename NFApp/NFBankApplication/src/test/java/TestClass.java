@@ -4,7 +4,7 @@ import Classes.ConnectionDB;
 import Managers.AccountManager;
 import Managers.ClientManager;
 
-import java.math.BigInteger;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -19,12 +19,12 @@ public class TestClass {
             String Url = "jdbc:sqlserver://DESKTOP-0M0S9AF;databaseName=NFBankDB;integratedSecurity=true;";
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date bdate = new Date(dateFormat.parse(date).getTime());
-            Client cl = new Client(new BigInteger("26531872653815"), "momami", "Momami789",
+            Client cl = new Client("26531872653812345615", "momami", "Momami789",
                     bdate, "Милена", "Целикина");
             Connection con = ConnectionDB.createConn(Url);
             ClientManager clientManager = new ClientManager(con, cl);
             //clientManager.delete();
-            //clientManager.create();
+            clientManager.create();
             List<Client> clients = clientManager.select();
             for (Client elem: clients) {
                 System.out.println(String.format("%s, %s, %s, %s, %s, %s", elem.getIdClient(), elem.getFirstName(),
@@ -39,10 +39,10 @@ public class TestClass {
             }
 
             Date dateAcc = new Date(dateFormat.parse("10-06-2019").getTime());
-            Account acc = new Account(new BigInteger("187391283540815"), 2190.8f,
-                    dateAcc, null, Account.AccountStatus.OPEN);
+            Account acc = new Account("18739128354081514505", 2190.8f,
+                    dateAcc, null, Account.AccountStatus.OPEN, cl.getId());
             AccountManager accManager = new AccountManager(con, acc);
-            accManager.delete();
+            //accManager.delete();
             accManager.create();
             List<Account> accounts = accManager.select();
             for (Account elem: accounts) {
@@ -64,6 +64,9 @@ public class TestClass {
             System.out.println(e);
         }
         catch (ParseException e){
+            System.out.println(e);
+        }
+        catch (Exception e){
             System.out.println(e);
         }
     }
